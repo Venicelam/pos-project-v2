@@ -55,7 +55,7 @@ function loadPromotions() {
   ];
 }
 
- it("getItemDetail should return item detail", function() {
+ it("getDetailItem should return item detail", function() {
      // Given
      const barcode = "ITEM000001";
      const list = [
@@ -85,4 +85,23 @@ function loadPromotions() {
 
      // Then
      expect(itemDetail).toEqual(expected);
+ });
+
+it("should insert item to receipt", function() {
+     // Given
+     const receiptItem = [
+        {
+             barcode: 'ITEM000000',
+             name: 'Coca-Cola',
+             unit: 'bottle',
+             price: 3.00
+        }
+     ]
+
+     // When
+     const receipt = printReceipt.InsertItemToReceipt(receiptItem);
+     const expected = (Coca-Cola, ITEM000000, 1, bottle, 3.00);
+
+     // Then
+          expect(receipt).toEqual(expected);
  });
