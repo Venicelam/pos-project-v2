@@ -1,57 +1,35 @@
 'use strict';
 
-function loadAllItems() {
-  return [
-    {
-      barcode: 'ITEM000000',
-      name: 'Coca-Cola',
-      unit: 'bottle',
-      price: 3.00
-    },
-    {
-      barcode: 'ITEM000001',
-      name: 'Sprite',
-      unit: 'bottle',
-      price: 3.00
-    },
-    {
-      barcode: 'ITEM000002',
-      name: 'Apple',
-      unit: 'kg',
-      price: 5.50
-    },
-    {
-      barcode: 'ITEM000003',
-      name: 'Litchi',
-      unit: 'kg',
-      price: 15.00
-    },
-    {
-      barcode: 'ITEM000004',
-      name: 'Battery',
-      unit: 'box',
-      price: 2.00
-    },
-    {
-      barcode: 'ITEM000005',
-      name: 'Noodles',
-      unit: 'bag',
-      price: 4.50
-    }
-  ];
+function getDetailItem(barcode, list){
+    return list.find(listItem => listItem.barcode == barcode);
 }
 
-function loadPromotions() {
-  return [
-    {
-      type: 'BUY_TWO_GET_ONE_FREE',
-      barcodes: [
-        'ITEM000000',
-        'ITEM000001',
-        'ITEM000005'
-      ]
-    }
-  ];
+function InsertItemToReceipt(item, itemList){
+    let receiptItem = getDetailItem(item.barcode, itemList)
+    itemList.push({name:item.name, barcode:item.barcode, count:1, unit:item.unit, price:item.price})
 }
 
-function 
+function printReceipt (list, barcodes, promotions){
+    var itemList = [];
+    barcodes.forEach(barcode => {InsertItemToReceipt(itemList, getDetailItem(barcode, list))});
+        var output = "";
+        var total = 0;
+        output = output + '***<store earning no money>Receipt ***\n';
+        itemList.forEach( item =>{
+            output = output + 'Name: '  + item.name
+            output = output + ', Quantity: ' + item.count + item.unit
+            output = output + ', Unit price: ' + item.price.toFixed(2) + '(yuan), '
+            var subTotal = item.count * item.price;
+            output = output + ', Subtotal: ' + (item.count * item.price).toFixed(2) + '(yuan)\n '
+            totalPrice = totalPrice + subTotal;
+        })
+        output = output +  '----------------------\n' + 'Total：' + totalPrice.toFixed(2) + '(yuan)\n' + '**********************'
+        return output;
+    }
+
+module.exports = {
+    printReceipt,
+    getDetailItem,
+    InsertItemToReceipt
+}
+
