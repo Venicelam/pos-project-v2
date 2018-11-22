@@ -12,7 +12,7 @@ function InsertItemToReceipt(item, itemList){
 function printReceipt (list, barcodes, promotions){
     var itemList = [];
     barcodes.forEach(barcode => {InsertItemToReceipt(itemList, getDetailItem(barcode, list))});
-        var output = "";
+        let output = "";
         var total = 0;
         output = output + '***<store earning no money>Receipt ***\n';
         itemList.forEach( item =>{
@@ -27,9 +27,26 @@ function printReceipt (list, barcodes, promotions){
         return output;
     }
 
+function checkPromotion(item, promotions){
+    return promotions.map(sale =>{
+        if (sale.type == 'BUY_TWO_GET_ONE_FREE'){
+            savingPerItem = item.filter(item => getDetailItem((item.id, sale.barcodes) != undefined)
+            .filter(item => item.count/3>=1).map(item => {
+            let saved = item.price*parseInt(item.count/3)
+            item.subTotal = item.subTotal - saved;
+            return saving;
+            }).reduce(sum, 0);
+
+            return subTotalSaving
+            }
+        }
+    })
+}
+
 module.exports = {
     printReceipt,
     getDetailItem,
-    InsertItemToReceipt
+    insertItemToReceipt,
+    checkPromotion
 }
 
